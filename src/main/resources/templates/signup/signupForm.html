@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Aid kit</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <!-- 나의 스타일 추가 -->
+    <link rel="stylesheet" href="/css/signup.css?v=1234">
+
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>Clickr | Landing, Ecommerce &amp; Business Templatee</title>
+
+
+    <!-- ===============================================-->
+    <!--    Favicons-->
+    <!-- ===============================================-->
+    <link rel="apple-touch-icon" sizes="180x180" href="../clickr/public/assets/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../clickr/public/assets/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../clickr/public/assets/img/favicons/favicon-16x16.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../clickr/public/assets/img/favicons/favicon.ico">
+    <link rel="manifest" href="../clickr/public/assets/img/favicons/manifest.json">
+    <meta name="msapplication-TileImage" content="../clickr/public/assets/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- ===============================================-->
+    <!--    Stylesheets-->
+    <!-- ===============================================-->
+    <link href="../clickr/public/assets/css/theme.css" rel="stylesheet" />
+
+    <link href="../clickr/public/vendors/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+
+        /* 이메일 인증번호 전송 유효성  */
+        /*$(document).ready(function (){
+
+            // emailCheck 버튼 눌렀을때
+            $("#emailCheck").on("click", function (){
+                doSubmit();
+            })
+
+        })*/
+
+        function doSubmit(){
+            let f = document.getElementById("f");
+
+            if (f.userEmail.value===""){
+                alert("이메일을 입력해주시기 바랍니다.")
+                f.userEmail.focus();
+                return
+            }
+
+            if (f.mailCode.value()===""){
+                alert("인증번호를 입력해주세요.")
+                f.mailCode.focus();
+                return;
+            }
+
+            if (f.userName.value()===""){
+                alert("이름을 입력해주세요")
+                f.userName.focus();
+                return;
+            }
+
+            if (f.userId.value()===""){
+                alert("사용하실 아이디를 입력해주세요.")
+                f.userId.focus();
+                return;
+            }
+
+            if (f.userPwd.value()===""){
+                alert("사용하실 비밀번호를 입력해주세요");
+                f.userPwd.focus();
+                return;
+            }
+
+
+        }
+
+    </script>
+</head>
+<body class="text-center" data-bs-target="#navbar">
+<!--================================================== -->
+<!--     Navbar 고정 -->
+<!--================================================== -->
+<main class="main" id="top">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 d-block" data-navbar-on-scroll="data-navbar-on-scroll">
+        <div class="container"><a class="navbar-brand d-inline-flex" href="/main/index"><img class="card-img" src="../clickr/public/assets/img/gallery/logo.png" alt="..." /><span class="fs-2 fw-bold text-primary ms-2">CLICK<span class="text-warning">R</span></span></a>
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item px-2"><a class="nav-link fw-bold" aria-current="page" href="/main/index">Home</a></li>
+                    <li class="nav-item px-2"><a class="nav-link fw-bold" href="/main/index#search">검색</a></li>
+                    <li class="nav-item px-2"><a class="nav-link fw-bold" href="/main/index#usedMedicine">자주먹는 약</a></li>
+                    <li class="nav-item px-2"><a class="nav-link fw-bold" href="/main/index#packages">나의 구급상자</a></li>
+                    <li class="nav-item px-2"><a class="nav-link fw-bold" href="/main/index#faqs">FAQs </a></li>
+                </ul>
+                <form class="ms-lg-5"><a class="btn btn-primary" href="/login/login">Get started</a></form>
+            </div>
+        </div>
+    </nav>
+</main>
+<!--================================================== -->
+<!--     Navbar 고정 여기까지 -->
+<!--================================================== -->
+
+<!--  html 전체 영역을 지정하는 container -->
+<div id="container">
+    <form name="f" id="f" method="post" action="/signup/signup">
+        <!--&lt;!&ndash;  login 폼 영역을 : loginBox &ndash;&gt;-->
+        <div id="loginBox">
+
+            <!--&lt;!&ndash; 로그인 페이지 타이틀 &ndash;&gt;-->
+            <div id="loginBoxTitle">Welcome to Aid Kit</div>
+            <!-- &lt;!&ndash; 아이디, 비번, 버튼 박스 &ndash;&gt;-->
+            <div id="inputBox" style="width: 500px">
+                <div class="input-form-box"><span>User Email</span></div>
+                <div class="input-form-box" >
+                    <input type="text" name="userEmail" style="width: 65%; float: left;" placeholder="이메일을 입력해주세요">
+
+                    <button type="button" id="emailCheck" class="btn-primary" style="width: 30%; float: right; margin-left: 3%"> 이메일 인증 </button>
+                </div>
+                <div class="input-form-box" style="margin-top: 10px; margin-bottom: 10px">
+                    <input type="text" name="mailCode" style="width: 65%; float: left" placeholder="인증번호를 확인해주세요">
+
+                    <button type="button" class="btn-primary" style="width: 30%; float: right; margin-left: 3%"> 인증번호 확인 </button>
+                </div>
+                <div class="input-form-box"><span> USER NAME</span></div>
+                <div class="input-form-box">
+                    <input type="text" name="userName" style="width: 98%;" placeholder="사용자의 이름을 입력해주세요.">
+                </div>
+                <div class="input-form-box"><span> USER ID</span></div>
+                <div class="input-form-box">
+                    <input type="text" name="userId" style="width: 65%;" placeholder="사용할 아이디를 입력해주세요.">
+                    <button type="button" class="btn-primary" style="width: 30%; float: right; margin-left: 3%"> 아이디 중복확인</button>
+                </div>
+                <div class="input-form-box"><span> USER PASSWROD</span></div>
+                <div class="input-form-box">
+                    <input type="text" name="userPwd" style="width: 98%;" placeholder="사용할 비밀번호를 입력해주세요.">
+                </div>
+                <div class="input-form-box">
+                    <input type="text" name="pwdCheck" style="width: 65%;" placeholder="비밀번호를 확인해주세요.">
+                    <button type="button" id="pwdCheck" class="btn-primary" style="width: 30%; float: right; margin-left: 3%"> 비밀번호 확인</button>
+                </div>
+
+                <div class="button-login-box" style="margin-top: 40px">
+                    <button type="button" onclick="location.href='/login/login'" class="btn btn-secondary btn-xs" style="width: 47%; float: left; height: 55px"> 로그인</button>
+                    <button type="submit" class="btn btn-primary btn-xs" style="width:47%; float: right; height: 55px" >회원가입</button>
+                </div><br><br>
+                <div><small><a href="/login/find_pwd" style="text-decoration: underline; float: right; margin-top: 15px"> * 비밀번호 찾기 </a> </small></div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<!--&lt;!&ndash; Bootstrap Bundle with Popper &ndash;&gt;-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+</body>
+</html>
