@@ -92,7 +92,7 @@
 <!--     Navbar 고정 -->
 <!--================================================== -->
 <main class="main" id="top">
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 d-block" data-navbar-on-scroll="data-navbar-on-scroll">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 d-block" data-navbar-on-scroll="data-navbar-on-scroll" style="background-color: #FFFFFF">
         <div class="container"><a class="navbar-brand d-inline-flex" href="/main/index"><img class="card-img" src="../clickr/public/assets/img/gallery/logo.png" alt="..." /><span class="fs-2 fw-bold text-primary ms-2">CLICK<span class="text-warning">R</span></span></a>
             <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
@@ -114,7 +114,7 @@
 
 <!--  html 전체 영역을 지정하는 container -->
 <div id="container">
-    <form name="f" id="f" method="post" action="/signup/signup">
+    <form name="f" id="f" method="post" action="/signup/insertUserInfo">
         <!--&lt;!&ndash;  login 폼 영역을 : loginBox &ndash;&gt;-->
         <div id="loginBox">
 
@@ -124,14 +124,14 @@
             <div id="inputBox" style="width: 500px">
                 <div class="input-form-box"><span>User Email</span></div>
                 <div class="input-form-box" >
-                    <input type="text" name="userEmail" style="width: 65%; float: left;" placeholder="이메일을 입력해주세요">
+                    <input type="text" name="userEmail" id="userEmail" style="width: 65%; float: left;" placeholder="이메일을 입력해주세요">
 
-                    <button type="button" id="emailCheck" class="btn-primary" style="width: 30%; float: right; margin-left: 3%"> 이메일 인증 </button>
+                    <button type="button" id="emailCheckBtn" class="btn-primary" style="width: 30%; float: right; margin-left: 3%"> 이메일 인증 </button>
                 </div>
-                <div class="input-form-box" style="margin-top: 10px; margin-bottom: 10px">
-                    <input type="text" name="mailCode" style="width: 65%; float: left" placeholder="인증번호를 확인해주세요">
+                <div class="input-form-box" style="margin-top: 10px; margin-bottom: 10px" id="codeCheck">
+                    <input type="text" name="mailCode" id="mailCode" style="width: 65%; float: left" placeholder="인증번호를 확인해주세요">
 
-                    <button type="button" class="btn-primary" style="width: 30%; float: right; margin-left: 3%"> 인증번호 확인 </button>
+                    <button type="button" id="CodeCheckBtn" class="btn-primary" style="width: 30%; float: right; margin-left: 3%"> 인증번호 확인 </button>
                 </div>
                 <div class="input-form-box"><span> USER NAME</span></div>
                 <div class="input-form-box">
@@ -139,16 +139,16 @@
                 </div>
                 <div class="input-form-box"><span> USER ID</span></div>
                 <div class="input-form-box">
-                    <input type="text" name="userId" style="width: 65%;" placeholder="사용할 아이디를 입력해주세요.">
-                    <button type="button" class="btn-primary" style="width: 30%; float: right; margin-left: 3%"> 아이디 중복확인</button>
+                    <input type="text" name="userId" id="userId" style="width: 65%;" placeholder="사용할 아이디를 입력해주세요.">
+                    <button type="button" id="idCheckBtn" class="btn-primary" style="width: 30%; float: right; margin-left: 3%"> 아이디 중복확인</button>
                 </div>
                 <div class="input-form-box"><span> USER PASSWROD</span></div>
                 <div class="input-form-box">
-                    <input type="text" name="userPwd" style="width: 98%;" placeholder="사용할 비밀번호를 입력해주세요.">
+                    <input type="password" name="userPwd" id="userPwd" style="width: 98%;" placeholder="사용할 비밀번호를 입력해주세요.">
                 </div>
-                <div class="input-form-box">
-                    <input type="text" name="pwdCheck" style="width: 65%;" placeholder="비밀번호를 확인해주세요.">
-                    <button type="button" id="pwdCheck" class="btn-primary" style="width: 30%; float: right; margin-left: 3%"> 비밀번호 확인</button>
+                <div class="input-form-box" id="pwdCheckSuccess">
+                    <input type="password" name="pwdCheck" id="pwdCheck" style="width: 65%;" placeholder="비밀번호를 확인해주세요.">
+                    <button type="button" id="pwdCheckBtn" class="btn-primary" style="width: 30%; float: right; margin-left: 3%"> 비밀번호 확인</button>
                 </div>
 
                 <div class="button-login-box" style="margin-top: 40px">
@@ -165,5 +165,112 @@
 <!--&lt;!&ndash; Bootstrap Bundle with Popper &ndash;&gt;-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
+<script>
+    /* 아이디 중복체크 */
+    $("#idCheckBtn").click(function (){
+
+        let userId = $("#userId").val();
+        if (userId === ""){alert("아이디를 입력해주세요");$("#userId").focus();return;} // 아이디 유효성검사
+
+        $.ajax({
+            type: "POST",
+            url: "/signup/IdCheck",
+            data:{"userId" : userId},
+            success:function (data){
+
+                if (data.code === 0){
+                    alert("사용가능한 아이디입니다.")
+                    document.getElementById("userId").readOnly=true;
+                } else {
+                    alert("이미 사용중인 아이디입니다.")
+                    document.getElementById("userId").value="";
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown){
+                alert("통신 실패.")
+            }
+
+        });
+    });
+
+
+    $("#pwdCheckBtn").click(function (){
+
+        let userPwd = $("#userPwd").val();
+        let pwdCheck = $("#pwdCheck").val();
+        if (userPwd === ""){alert("비밀번호를 입력해주세요");
+        $("#userPwd").focus();
+        return;}
+
+        if (userPwd == pwdCheck){
+            alert("비밀번호가 일치합니다.\n\n회원가입을 계속 진행해주세요.")
+            $("#userPwd").attr("readonly",true); //readonly 두가지방법
+            document.getElementById("pwdCheck").readOnly=true;
+            $("#pwdCheckSuccess").hide();
+        }else {
+            alert("비밀번호가 일치하지 않습니다. \n\n비밀번호를 다시 한번 확인해주세요.")
+            document.getElementById("userPwd").value=""; // 텍스트값 비우기 두가지방법
+            $("#pwdCheck").val("");
+
+        }
+    });
+
+
+    /** 이메일 인증번호 보내기*/
+
+    let randomCode = '';
+    /* 이메일 인증번호 보내기 */
+    // emailCheckBtn 이라는 아이디를 가진 인풋 누를때 작동
+    $("#emailCheckBtn").click(function (){
+
+        let userEmail = $("#userEmail").val(); //user_email이라는 변수에 user_email아이디를 가진놈을 넣는다
+        if (userEmail === ""){alert("이메일을 입력해주세요"); $("#userEmail").focus(); return;}
+
+        //랜덤코드 만들기
+        function randomString () {
+            const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'
+            const stringLength = 6
+            let randomstring = ''
+            for (let i = 0; i < stringLength; i++) {
+                const rnum = Math.floor(Math.random() * chars.length)
+                randomstring += chars.substring(rnum, rnum + 1)
+            }
+            return randomstring
+        }
+        randomCode = randomString();
+
+
+        //ajax 통신
+        $.ajax({
+            type: "POST",
+            url: "/signup/emailCheck",
+            data: {"userEmail":userEmail, "mailCode":randomCode}, //"userEmail 키값으로 보낸다.
+            success: function (data) {
+
+                if (data.code === 1){
+                    alert("이미 가입된 이메일 입니다.")
+                }else if (data.code === 2){
+                    alert("인증코드가 전송되었습니다. \n\n이메일 인증번호를 확인해주세요")
+                }else {
+                    alert("인증코드 전송을 실패했습니다. 다시 한번 시도해주세요")
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) { // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+                alert("통신 실패.")
+            }
+        });
+    });
+
+    $("#CodeCheckBtn").click(function (){
+        if ($("#mailCode").val() === randomCode){
+            alert("인증되었습니다. 계속 진행해주세요")
+            $("#codeCheck").hide();
+            document.getElementById("userEmail").readOnly=true;
+        }else {
+            alert("인증번호를 다시한번 확인해주세요.")
+        };
+    });
+
+</script>
 </body>
 </html>

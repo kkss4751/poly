@@ -1,6 +1,8 @@
 package kopo.poly.controller;
 
 import kopo.poly.dto.UserInfoDTO;
+import kopo.poly.service.IUserInfoService;
+import kopo.poly.service.impl.MailService;
 import kopo.poly.util.CmmUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,15 +11,25 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping(value = "login")
 @Controller
 public class LoginController {
+
+    @Resource(name = "UserInfoService")
+    private IUserInfoService userInfoService;
+
+    @Resource(name = "MailService")
+    private MailService mailService;
 
     @GetMapping(value = "/loginForm")
     public String loginForm() throws Exception{
@@ -66,10 +78,30 @@ public class LoginController {
     }
 
     @GetMapping(value = "/find_id")
-    public String findId() throws Exception{
+    public String find_Id() throws Exception{
         log.info(this.getClass().getName()+"findId page Start!");
         log.info(this.getClass().getName()+"findId page End");
         return "/login/findId";
+    }
+
+    @ResponseBody
+    @PostMapping(value = "findId")
+    public String findId(HttpServletRequest request) throws Exception{
+        log.info(this.getClass().getName()+" findId Controller Start!");
+        Map<String, Integer> map = new HashMap<>();
+
+        String userEmail = CmmUtil.nvl(request.getParameter("userEmail"));
+        String userName = CmmUtil.nvl(request.getParameter("userName"));
+
+        UserInfoDTO uDTO = new UserInfoDTO();
+        uDTO.setUserEmail(userEmail);
+        uDTO.setUserName(userName);
+
+
+
+
+        log.info(this.getClass().getName()+" findId Controller End!");
+        return "";
     }
 
 }
