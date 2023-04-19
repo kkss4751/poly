@@ -68,6 +68,7 @@ public class UserInfoService implements IUserInfoService {
 
     @Override
     public int UserLoginCheck(UserInfoDTO pDTO) throws Exception {
+        log.info(this.getClass().getName()+" userLoginCheck Service Start!!");
         //로그인 성공1 , 실패:0
         int res = 0;
 
@@ -83,6 +84,7 @@ public class UserInfoService implements IUserInfoService {
             res = 1;
         }
 
+        log.info(this.getClass().getName()+" userLoginCheck Service End!!");
         return res;
 
     }

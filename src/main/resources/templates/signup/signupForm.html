@@ -49,39 +49,44 @@
 
         })*/
 
-        function doSubmit(){
-            let f = document.getElementById("f");
+        function doSubmit(f){
+
 
             if (f.userEmail.value===""){
                 alert("이메일을 입력해주시기 바랍니다.")
                 f.userEmail.focus();
-                return
+                return false;
             }
 
-            if (f.mailCode.value()===""){
+            if (f.mailCode.value===""){
                 alert("인증번호를 입력해주세요.")
                 f.mailCode.focus();
-                return;
+                return false;
             }
 
-            if (f.userName.value()===""){
+            if (f.userName.value===""){
                 alert("이름을 입력해주세요")
                 f.userName.focus();
-                return;
+                return false;
             }
 
-            if (f.userId.value()===""){
+            if (f.userId.value===""){
                 alert("사용하실 아이디를 입력해주세요.")
                 f.userId.focus();
-                return;
+                return false;
             }
 
-            if (f.userPwd.value()===""){
+            if (f.userPwd.value===""){
                 alert("사용하실 비밀번호를 입력해주세요");
                 f.userPwd.focus();
-                return;
+                return false;
             }
-
+            if (f.pwdCheck.value===""){
+                alert("비밀번호를 확인해주세요");
+                f.pwdCheck.focus();
+                return false;
+            }
+            return true;
 
         }
 
@@ -114,7 +119,7 @@
 
 <!--  html 전체 영역을 지정하는 container -->
 <div id="container">
-    <form name="f" id="f" method="post" action="/signup/insertUserInfo">
+    <form name="f" id="f" method="post" action="/signup/insertUserInfo" onsubmit="return doSubmit(this);">
         <!--&lt;!&ndash;  login 폼 영역을 : loginBox &ndash;&gt;-->
         <div id="loginBox">
 
@@ -153,7 +158,7 @@
 
                 <div class="button-login-box" style="margin-top: 40px">
                     <button type="button" onclick="location.href='/login/login'" class="btn btn-secondary btn-xs" style="width: 47%; float: left; height: 55px"> 로그인</button>
-                    <button type="submit" class="btn btn-primary btn-xs" style="width:47%; float: right; height: 55px" >회원가입</button>
+                    <button type="submit" id="signupBtn" class="btn btn-primary btn-xs" style="width:47%; float: right; height: 55px" >회원가입</button>
                 </div><br><br>
                 <div><small><a href="/login/find_pwd" style="text-decoration: underline; float: right; margin-top: 15px"> * 비밀번호 찾기 </a> </small></div>
             </div>

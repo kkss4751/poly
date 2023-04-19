@@ -127,7 +127,7 @@ public class SignupController {
             log.info("회원가입 결과 : " + res);
 
             if (res == 1){
-                msg = "회원가입되었습니다.";
+                msg = "회원가입되었습니다. \n\n 로그인 후 이용해 주세요";
 
             }else if (res == 2){
                 msg = " 이미 가입된 이메일 주소입니다.";
@@ -147,6 +147,8 @@ public class SignupController {
 
             model.addAttribute("msg", msg);
             model.addAttribute("pDTO", pDTO);
+            String url = "/login/loginForm";
+            model.addAttribute("url",url);
 
             pDTO = null;
         }

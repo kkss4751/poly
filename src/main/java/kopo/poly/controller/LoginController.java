@@ -38,6 +38,13 @@ public class LoginController {
         return "/login/loginForm";
     }
 
+    @PostMapping(value = "/loginForm")
+    public String loginFormPost() throws Exception{
+        log.info(this.getClass().getName()+" loginForm Post Startt!");
+
+        return "/login/loginForm";
+    }
+
 
     @PostMapping(value = "/check_user")
     public String checkUser(HttpServletRequest request, HttpSession session, ModelMap model) throws Exception{
@@ -48,6 +55,9 @@ public class LoginController {
 
         //웹에서 바는 정보 저장할 변수
         UserInfoDTO pDTO = null;
+
+        String msg = "";
+        String url = "";
 
         try{
 
@@ -60,14 +70,35 @@ public class LoginController {
             pDTO.setUserId(userId);
             pDTO.setUserPwd(userPwd);
 
+            res = userInfoService.UserLoginCheck(pDTO); // 유저 정보 확인하기
+            log.info("res : " + res);
+
+            if (res == 1){
+
+                /* 아이디가 비밀번호가 일치하므로 로그인 성공*/
+                session.setAttribute("SS_USER_ID", userId);
+                msg = "안녕하세요";
+                url = "/main/index";
+            }
         }catch (Exception e){
+            res = 2;
+            log.info(e.toString());
+            e.printStackTrace();
+
+            msg = "아이디, 비밀번호를 다시한번 확인해주세요";
+            url = "/login/loginForm";
 
         }finally {
             log.info(this.getClass().getName()+" check user End!");
+
+            model.addAttribute("res", String.valueOf(res));
+            model.addAttribute("msg", msg);
+            model.addAttribute("url", url);
+            pDTO = null;
         }
 
+        return "redirect";
 
-        return "";
     }
 
     @GetMapping(value = "/find_pwd")
