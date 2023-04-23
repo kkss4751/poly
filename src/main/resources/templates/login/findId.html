@@ -73,24 +73,26 @@
     <!--  login 폼 영역을 : loginBox -->
     <div id="loginBox">
 
+        <form id="f" action="/login/findUserId" method="post" onsubmit="">
         <!-- 로그인 페이지 타이틀 -->
         <div id="loginBoxTitle">FIND ID</div>
         <!-- 아이디, 비번, 버튼 박스 -->
         <div id="inputBox">
             <div class="input-form-box"> <span> User Email </span> </div>
-            <div class="input-form-box"><input type="text" name="uid" class="form-control"></div>
+            <div class="input-form-box"><input type="text" name="uEmail" class="form-control"></div>
 
             <div class="input-form-box"> <span> User Name </span> </div>
-            <div class="input-form-box"><input type="password" name="upw" class="form-control"></div>
+            <div class="input-form-box"><input type="text" name="uName" class="form-control"></div>
             <div class="button-login-box" >
-                <button type="button" class="btn btn-primary btn-xs" style="width:100%; height: 45px; margin-top: 22px" > 임시 비밀번호 전송 </button>
+                <button type="button" class="btn btn-primary btn-xs" style="width:100%; height: 45px; margin-top: 22px" > 아이디 찾기 </button>
             </div>
-            <div style="float: right">
-                <small><a href="/login/loginForm" style="text-decoration: underline; margin-right: 3px "> * 로그인 </a> </small> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div style=" float: right">
+                <small><a href="/login/find_pwd" style="text-decoration: underline; margin-right: 3px "> * 비밀번호 찾기 </a> </small> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <small><a href="/signup/signupForm" style="text-decoration: underline;"> * 회원가입 </a> </small>
             </div>
 
         </div>
+        </form>
 
     </div>
 </div>

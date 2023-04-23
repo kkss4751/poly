@@ -82,6 +82,8 @@ public class UserInfoService implements IUserInfoService {
 
         if (rEntity.isPresent()){
             res = 1;
+        } else {
+            res = 0;
         }
 
         log.info(this.getClass().getName()+" userLoginCheck Service End!!");
@@ -101,6 +103,26 @@ public class UserInfoService implements IUserInfoService {
         }
 
         log.info(this.getClass().getName()+" userIdCheck Service End");
+        return res;
+    }
+
+    @Override
+    public int userCheck(UserInfoDTO pDTO) throws Exception {
+        log.info(this.getClass().getName()+" userCheck for userEmail and UserName Service Start!");
+        int res = 0;
+        String userEmail = pDTO.getUserEmail();
+        String userName = pDTO.getUserName();
+
+        Optional<UserInfoEntity> rEntity = userInfoRepository.findByUserEmailAndUserName(userEmail, userName);
+
+        //String userId = userInfoRepository.findByUserId();
+        if (rEntity.isPresent()){
+            res = 1;
+
+            //return userInfoRepository.findUserIdByUserEmailAndUserName();
+        }
+
+        log.info(this.getClass().getName()+" userCheck for userEmail and UserName Service End!");
         return res;
     }
 }

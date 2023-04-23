@@ -61,18 +61,19 @@ public class MailService implements IMailService {
             try {
                 message.setSubject("**** 로부터 이메일 인증번호가 도착했습니다. "); // 제목
                 String msgg = "";
-                msgg += "<div style = 'margin:100px;' >";
-                msgg += "<h1> 안녕하세요 ******* 입니다 ! </h1> ";
+                msgg += "<div style = 'margin:auto; width:600px; border:1px solid black; padding:10px; text-align:center; background-color:#CEF6F5'>";
+                msgg += "<h1 style='color:#0101DF; font-family: Helvetica, Sans-Serif;'> hhhh 안녕하세요 ******* 입니다 ! </h1> ";
                 msgg += "<br>";
-                msgg += "<p> 회원가입 창으로 돌아가 아래 코드를 입력해주세요 </p>";
+                msgg += "<p style='color: black;'> 회원가입 창으로 돌아가 아래 코드를 입력해주세요 </p>";
                 msgg += "<br>";
-                msgg += "<p> 감사합니다 </p>";
+                msgg += "<p style='color: black;> 감사합니다 </p>";
                 msgg += "<br>";
                 // msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
-                msgg += "<h3 style='color:blue;'> 회원가입 코드입니다. </h3>";
-                msgg += "<div style='font-size:130%'>";
+                msgg += "<div style='border:1px solid #CEF6F5; padding:10px; background-color:#CEF6F5'>";
+                msgg += "<h3 style='color:blue; background-color: #ffffff; '> 회원가입 코드입니다. </h3><hr>";
+                msgg += "<div style='font-size:130%; background-color:#ffffff'>";
                 msgg += "CODE : <strong>";
-                msgg += sendCode + "</strong> <br> <div><br>";
+                msgg += sendCode + "</strong> <br> <div><br> </div>";
                 // msgg+= "</div>";
 
                 message.setText(msgg, "utf-8", "html");

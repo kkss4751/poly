@@ -74,11 +74,16 @@ public class LoginController {
             log.info("res : " + res);
 
             if (res == 1){
+                msg = "안녕하세요" + userId +"님";
+                url = "/main/index";
 
                 /* 아이디가 비밀번호가 일치하므로 로그인 성공*/
                 session.setAttribute("SS_USER_ID", userId);
-                msg = "안녕하세요";
-                url = "/main/index";
+                model.addAttribute("userId", userId);
+                model.addAttribute("msg",msg);
+                model.addAttribute("url", url);
+
+
             }
         }catch (Exception e){
             res = 2;
@@ -87,15 +92,22 @@ public class LoginController {
 
             msg = "아이디, 비밀번호를 다시한번 확인해주세요";
             url = "/login/loginForm";
+            model.addAttribute("msg",msg);
+            model.addAttribute("url",url);
 
         }finally {
             log.info(this.getClass().getName()+" check user End!");
 
             model.addAttribute("res", String.valueOf(res));
-            model.addAttribute("msg", msg);
-            model.addAttribute("url", url);
+            msg = "아이디, 비밀번호를 다시한번 확인해주세요";
+            url = "/login/loginForm";
+            model.addAttribute("msg",msg);
+            model.addAttribute("url",url);
+
             pDTO = null;
         }
+        /*model.addAttribute("userId", pDTO.getUserId());*/
+        /* 이부분 res 뜨지 않음 */
 
         return "redirect";
 
@@ -113,6 +125,50 @@ public class LoginController {
         log.info(this.getClass().getName()+"findId page Start!");
         log.info(this.getClass().getName()+"findId page End");
         return "/login/findId";
+    }
+
+
+    /*아이디 찾기 로직 구현 컨트롤러 */
+    @PostMapping(value = "/findUserId")
+    public String findUserId(HttpServletRequest request, ModelMap model)throws Exception{
+        log.info(this.getClass().getName()+"findUserId Controller Start!");
+
+
+
+        int res = 0;
+
+        String msg = "";
+        String url = "";
+        UserInfoDTO pDTO = null;
+
+        try{
+            String userEmail = CmmUtil.nvl(request.getParameter("uEmail"));
+            String userName = CmmUtil.nvl(request.getParameter("uName"));
+
+            pDTO = new UserInfoDTO();
+            pDTO.setUserEmail(userEmail);
+            pDTO.setUserPwd(userName);
+
+            res = userInfoService.userCheck(pDTO);
+            if (res == 1){
+                model.addAttribute("res", res);
+                // String userId = findUserId();
+            }
+        }catch (Exception e){
+
+        }finally {
+
+        }
+
+        log.info(this.getClass().getName()+"findUserId Controller End!");
+        return "/login/findId";
+    }
+    /** 아이디 찾기 실행시 아이디 바로 보여줄 페이지 */
+    @GetMapping(value = "/idPage")
+    public String idPage() throws Exception{
+        log.info(this.getClass().getName()+ " Id Page Start!");
+        log.info(this.getClass().getName()+ " Id Page End!");
+        return "login/idPage";
     }
 
     @ResponseBody

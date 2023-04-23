@@ -12,4 +12,8 @@ public interface IUserInfoService {
 
     /* 아이디 중복체크 */
     int userIdCheck(String userId) throws Exception;
+
+
+    /* 이메일과 이름으로 유저확인하기*/
+    int userCheck(UserInfoDTO pDTO) throws Exception;
 }

@@ -32,6 +32,9 @@ dependencies {
     /* 이메일 의존성 */
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+    /* 정적 리소스 devtools */
+
+
     /* 추가 */
 
 }

@@ -37,62 +37,85 @@
     <link href="../clickr/public/vendors/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript">
-
-        /* 이메일 인증번호 전송 유효성  */
-        /*$(document).ready(function (){
-
-            // emailCheck 버튼 눌렀을때
-            $("#emailCheck").on("click", function (){
-                doSubmit();
-            })
-
-        })*/
-
-        function doSubmit(f){
-
-
-            if (f.userEmail.value===""){
-                alert("이메일을 입력해주시기 바랍니다.")
-                f.userEmail.focus();
-                return false;
-            }
-
-            if (f.mailCode.value===""){
-                alert("인증번호를 입력해주세요.")
-                f.mailCode.focus();
-                return false;
-            }
-
-            if (f.userName.value===""){
-                alert("이름을 입력해주세요")
-                f.userName.focus();
-                return false;
-            }
-
-            if (f.userId.value===""){
-                alert("사용하실 아이디를 입력해주세요.")
-                f.userId.focus();
-                return false;
-            }
-
-            if (f.userPwd.value===""){
-                alert("사용하실 비밀번호를 입력해주세요");
-                f.userPwd.focus();
-                return false;
-            }
-            if (f.pwdCheck.value===""){
-                alert("비밀번호를 확인해주세요");
-                f.pwdCheck.focus();
-                return false;
-            }
-            return true;
-
-        }
-
-    </script>
 </head>
 <body class="text-center" data-bs-target="#navbar">
+<script type="text/javascript">
+
+    /* 이메일 인증번호 전송 유효성  */
+    /*$(document).ready(function (){
+
+        // emailCheck 버튼 눌렀을때
+        $("#emailCheck").on("click", function (){
+            doSubmit();
+        })
+
+    })*/
+
+    function doSubmit(f){
+
+
+        if (f.userEmail.value===""){
+            alert("이메일을 입력해주시기 바랍니다.")
+            f.userEmail.focus();
+            return false;
+        }
+
+        if (f.mailCode.value===""){
+            alert("인증번호를 입력해주세요.")
+            f.mailCode.focus();
+            return false;
+        }
+
+        if (f.userName.value===""){
+            alert("이름을 입력해주세요")
+            f.userName.focus();
+            return false;
+        }
+
+        if (f.userId.value===""){
+            alert("사용하실 아이디를 입력해주세요.")
+            f.userId.focus();
+            return false;
+        }
+
+        if (f.userPwd.value===""){
+            alert("사용하실 비밀번호를 입력해주세요");
+            f.userPwd.focus();
+            return false;
+        }
+        if (f.pwdCheck.value===""){
+            alert("비밀번호를 확인해주세요");
+            f.pwdCheck.focus();
+            return false;
+        }
+        return true;
+
+    }
+
+    //그 전 인증버튼 누르지 않으면 작동 x
+    const signupBtn = document.getElementById("signupBtn");
+    const emailCheckBtn = document.getElementById("emailCheckBtn");
+    const CodeCheckBtn = document.getElementById("CodeCheckBtn");
+    const IdCheckBtn = document.getElementById("idCheckBtn");
+    const pwdCheckBtn = document.getElementById("pwdCheckBtn");
+
+
+
+    emailCheckBtn.addEventListener("click", ()=> {{
+        CodeCheckBtn.disabled= false;
+    }})
+
+    document.getElementById("CodeCheckBtn").addEventListener("click", function() {
+        if(document.getElementById("emailCheckBtn").disabled) {
+            alert("이메일 인증을 먼저 해주세요.");
+        }
+        else {
+            // 인증번호 확인 로직
+        }
+    });
+
+
+</script>
 <!--================================================== -->
 <!--     Navbar 고정 -->
 <!--================================================== -->
@@ -108,7 +131,7 @@
                     <li class="nav-item px-2"><a class="nav-link fw-bold" href="/main/index#packages">나의 구급상자</a></li>
                     <li class="nav-item px-2"><a class="nav-link fw-bold" href="/main/index#faqs">FAQs </a></li>
                 </ul>
-                <form class="ms-lg-5"><a class="btn btn-primary" href="/login/login">Get started</a></form>
+                <form class="ms-lg-5"><a class="btn btn-primary" href="/login/loginForm">Get started</a></form>
             </div>
         </div>
     </nav>
@@ -134,9 +157,9 @@
                     <button type="button" id="emailCheckBtn" class="btn-primary" style="width: 30%; float: right; margin-left: 3%"> 이메일 인증 </button>
                 </div>
                 <div class="input-form-box" style="margin-top: 10px; margin-bottom: 10px" id="codeCheck">
-                    <input type="text" name="mailCode" id="mailCode" style="width: 65%; float: left" placeholder="인증번호를 확인해주세요">
+                    <input type="text" name="mailCode" id="mailCode"  style="width: 65%; float: left" placeholder="인증번호를 확인해주세요">
 
-                    <button type="button" id="CodeCheckBtn" class="btn-primary" style="width: 30%; float: right; margin-left: 3%"> 인증번호 확인 </button>
+                    <button type="button" id="CodeCheckBtn" class="btn-primary" style="width: 30%; float: right; margin-left: 3%" onsubmit="CheckBtn(this)"> 인증번호 확인 </button>
                 </div>
                 <div class="input-form-box"><span> USER NAME</span></div>
                 <div class="input-form-box">
@@ -157,10 +180,15 @@
                 </div>
 
                 <div class="button-login-box" style="margin-top: 40px">
-                    <button type="button" onclick="location.href='/login/login'" class="btn btn-secondary btn-xs" style="width: 47%; float: left; height: 55px"> 로그인</button>
+                    <button type="button" onclick="location.href='/login/loginForm'" class="btn btn-secondary btn-xs" style="width: 47%; float: left; height: 55px"> 로그인</button>
                     <button type="submit" id="signupBtn" class="btn btn-primary btn-xs" style="width:47%; float: right; height: 55px" >회원가입</button>
                 </div><br><br>
-                <div><small><a href="/login/find_pwd" style="text-decoration: underline; float: right; margin-top: 15px"> * 비밀번호 찾기 </a> </small></div>
+                <div style="width: 500px; margin-top: 15px; float:right;">
+                    <small>
+                        <a href="/login/find_id" style="text-decoration: underline; margin-right: 15px; "> * 아이디 찾기 </a>
+                        <a href="/login/find_pwd" style="text-decoration: underline;"> * 비밀번호 찾기 </a>
+                    </small>
+                </div>
             </div>
 
         </div>
@@ -203,8 +231,8 @@
 
         let userPwd = $("#userPwd").val();
         let pwdCheck = $("#pwdCheck").val();
-        if (userPwd === ""){alert("비밀번호를 입력해주세요");
-        $("#userPwd").focus();
+        if (pwdCheck === ""){alert("비밀번호를 입력해주세요");
+        $("#pwdCheck").focus();
         return;}
 
         if (userPwd == pwdCheck){
@@ -215,10 +243,12 @@
         }else {
             alert("비밀번호가 일치하지 않습니다. \n\n비밀번호를 다시 한번 확인해주세요.")
             document.getElementById("userPwd").value=""; // 텍스트값 비우기 두가지방법
-            $("#pwdCheck").val("");
+            document.getElementById("pwdCheck").value="";
+            $("#userPwd").focus();
 
         }
     });
+
 
 
     /** 이메일 인증번호 보내기*/
@@ -267,7 +297,9 @@
     });
 
     $("#CodeCheckBtn").click(function (){
-        if ($("#mailCode").val() === randomCode){
+        if ($("#mailCode").val() === ""){
+            alert("인증번호를 입력해주세요");
+        }else if ($("#mailCode").val() === randomCode){
             alert("인증되었습니다. 계속 진행해주세요")
             $("#codeCheck").hide();
             document.getElementById("userEmail").readOnly=true;

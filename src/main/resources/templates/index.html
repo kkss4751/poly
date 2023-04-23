@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-US" dir="ltr">
+<html lang="en-US" dir="ltr" xmlns:th="http://www.thymeleaf.ofg">
 
   <head>
     <meta charset="utf-8">
@@ -88,7 +88,9 @@
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="#packages">나의 구급상자</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="#faqs">FAQs </a></li>
             </ul>
-            <form class="ms-lg-5"><a class="btn btn-primary" href="/login/loginForm">Get started</a></form>
+
+            <form th:if="${userId}" class="ms-lg-5"><a class="btn btn-primary" href="/login/logOut">  LogOut</a></form>
+            <form th:unless="${userId}" class="ms-lg-5"><a class="btn btn-primary" href="/login/loginForm">  Get started</a></form>
           </div>
         </div>
       </nav><hr class="mt-6" />
@@ -397,10 +399,10 @@
               <div class="tab-pane fade show active" id="nav-food" role="tabpanel" aria-labelledby="nav-food-tab">
                 <div class="row gx-3">
                   <div class="col-sm-6 col-md-4 mb-3 h-100">
-                    <div class="card card-span h-100 text-white"><img class="rounded-3 h-100" src="../clickr/public/assets/img/gallery/food-1.png" alt="..." /><a class="stretched-link" href="#!"></a></div>
+                    <div class="card card-span h-100 text-white"><img class="rounded-3 h-100" src="../clickr/public/assets/img/gallery/food-1.png" alt="..." /><a class="stretched-link" href="/medicine/putMedicine"></a></div>
                   </div>
                   <div class="col-sm-6 col-md-4 mb-3 h-100">
-                    <div class="card card-span h-100 text-white"><img class="rounded-3 h-100" src="../clickr/public/assets/img/gallery/food-2.png" alt="..." /><a class="stretched-link" href="#!"></a></div>
+                    <div class="card card-span h-100 text-white"><img class="rounded-3 h-100" style="border: solid 1px red" src="../clickr/public/assets/img/gallery/food-2.png" alt="..." /><a class="stretched-link" href="#!"></a></div>
                   </div>
                   <div class="col-sm-6 col-md-4 mb-3 h-100">
                     <div class="card card-span h-100 text-white"><img class="rounded-3 h-100" src="../clickr/public/assets/img/gallery/food-3.png" alt="..." /><a class="stretched-link" href="#!"></a></div>

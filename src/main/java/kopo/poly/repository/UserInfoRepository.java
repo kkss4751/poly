@@ -22,6 +22,11 @@ public interface UserInfoRepository extends JpaRepository<UserInfoEntity, String
     /* 유저 아이디 중복체크 */
     Optional<UserInfoEntity> findByUserId(String userId);
 
+    /* 이메일과 이름으로 유저 확인*/
+    Optional<UserInfoEntity> findByUserEmailAndUserName(String userEmail, String UserName);
+
+    Optional<UserInfoEntity> findUserIdByUserEmailAndUserName(String UserEmail, String UserName);
+
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE USERSEQ A SET A.READ_CNT = IFNULL(A.READ_CNT, 0) + 1 WHERE A.USERSEQ = : noticeSeq",
             nativeQuery = true)
