@@ -10,7 +10,5 @@ public interface IMailService {
 
     //ㅇㅏ이디 찾아서 보내주기 (아이디찾기
     //int sendId(UserInfoDTO uDTO) throws Exception;
-
-    //비밀번호 찾기
-    //int sendPwd(UserInfoDTO uDTO)throws Exception;
+    int pwdCode(MailCodeDTO mDTO) throws Exception;
 }

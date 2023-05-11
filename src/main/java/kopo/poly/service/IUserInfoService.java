@@ -1,6 +1,7 @@
 package kopo.poly.service;
 
 import kopo.poly.dto.UserInfoDTO;
+import org.springframework.ui.ModelMap;
 
 public interface IUserInfoService {
 
@@ -15,5 +16,15 @@ public interface IUserInfoService {
 
 
     /* 이메일과 이름으로 유저확인하기*/
+    // int userCheck(UserInfoDTO pDTO) throws Exception;
+
+    UserInfoDTO findUserId(UserInfoDTO pDTO) throws Exception;
+
     int userCheck(UserInfoDTO pDTO) throws Exception;
+
+    /* 비밀번호 수정하기 */
+    void updateUserPwd(UserInfoDTO pDTO) throws Exception;
+
+    /* 삭제허기 */
+    void deleteUserInfo(UserInfoDTO pDTO) throws Exception;
 }

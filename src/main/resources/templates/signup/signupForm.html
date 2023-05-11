@@ -186,7 +186,7 @@
                 <div style="width: 500px; margin-top: 15px; float:right;">
                     <small>
                         <a href="/login/find_id" style="text-decoration: underline; margin-right: 15px; "> * 아이디 찾기 </a>
-                        <a href="/login/find_pwd" style="text-decoration: underline;"> * 비밀번호 찾기 </a>
+                        <a href="/login/find_pwd?userId" style="text-decoration: underline;"> * 비밀번호 찾기 </a>
                     </small>
                 </div>
             </div>
@@ -284,6 +284,7 @@
 
                 if (data.code === 1){
                     alert("이미 가입된 이메일 입니다.")
+                    document.getElementById("userEmail").value = "";
                 }else if (data.code === 2){
                     alert("인증코드가 전송되었습니다. \n\n이메일 인증번호를 확인해주세요")
                 }else {

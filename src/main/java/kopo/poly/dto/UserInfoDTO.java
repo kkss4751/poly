@@ -14,4 +14,6 @@ public class UserInfoDTO {
     private String userPwd;
 
     private String exists_yn; // 중복방지 변수/ DB테이블에 존재하지 않는 가상의 컬럼(ALIAS)
+
+    private int res; // 같이 보낼때 대비해서
 }

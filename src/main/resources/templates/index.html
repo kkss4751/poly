@@ -89,8 +89,9 @@
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="#faqs">FAQs </a></li>
             </ul>
 
-            <form th:if="${userId}" class="ms-lg-5"><a class="btn btn-primary" href="/login/logOut">  LogOut</a></form>
-            <form th:unless="${userId}" class="ms-lg-5"><a class="btn btn-primary" href="/login/loginForm">  Get started</a></form>
+            <!--<form th:if="${userId}" class="ms-lg-5"><a class="btn btn-primary" href="/login/logOut">  LogOut</a></form>-->
+            <!--<form th:unless=${userId}" class="ms-lg-5"><a class="btn btn-primary" href="/login/loginForm">  Get started</a></form>-->
+            <form class="ms-lg-5"><a class="btn btn-primary" href="/login/loginForm">  Get started</a></form>
           </div>
         </div>
       </nav><hr class="mt-6" />
@@ -98,6 +99,7 @@
         <div class="container">
           <div class="row align-items-center min-vh-75 min-vh-md-50">
             <div class="col-12 text-center py-8">
+              <!--<p th:text="${#session.getAttribute('userId') + '님' }"> </p>-->
               <h1 class="lh-sm fs-lg-6 fs-xxl-7">San Francisco Based <br />Product Photography Services </h1>
               <p class="text-700">Get high-quality aesthetic photographs of your valuable products within few days </p>
               <div class="mt-5"><a class="btn btn-sm btn-warning rounded-pill" href="#!"><i class="fas fa-camera me-2"></i>Book a photoshoot</a></div>
@@ -184,21 +186,21 @@
               <div class="badge badge-circle bg-soft-primary flex-center">
                 <div class="text-primary fs-7 font-base">1</div>
               </div>
-              <h5 class="text-primary text-center mt-3">Inform us about your product </h5>
+              <h5 class="text-primary text-center mt-3"> 어디가 아프신가요? </h5>
               <p class="text-center mx-xl-7">Introduce your product, select through the pricing plan and let us know if you have any references in mind</p>
             </div>
             <div class="col-12 col-md-4 d-flex flex-column align-items-center">
               <div class="badge badge-circle bg-soft-warning flex-center">
                 <div class="text-warning fs-7 font-base">2</div>
               </div>
-              <h5 class="text-primary text-center mt-3">Deliver your products </h5>
+              <h5 class="text-primary text-center mt-3"> 증상 검색 </h5>
               <p class="text-center mx-xl-7">Deliver the sujects at our doorstep, we will click perfect shots in no time and make it online ready</p>
             </div>
             <div class="col-12 col-md-4 d-flex flex-column align-items-center">
               <div class="badge badge-circle bg-soft-success flex-center">
                 <div class="text-success fs-7 font-base">3 </div>
               </div>
-              <h5 class="text-primary text-center mt-3">Reviewing the shots</h5>
+              <h5 class="text-primary text-center mt-3"> 약 검색 </h5>
               <p class="text-center mx-xl-7">After the photoshoot, you will get to review the shots and let us know if there any modification needed.</p>
             </div>
           </div>
@@ -522,7 +524,7 @@
 
           <div class="row flex-center py-5">
             <div class="col-xxl-9 py-5 text-center">
-              <h1 class="fw-bold mb-6 fs-lg-7">Get your commercial product<br />images today that matter </h1><a class="btn btn-lg btn-warning rounded-pill" href="#">Get Started Now<i class="fas fa-check ms-2"></i></a>
+              <h1 class="fw-bold mb-6 fs-lg-7">Don't leave your medicine unattended<br /> </h1><a class="btn btn-lg btn-warning rounded-pill" href="#">Get Started Now<i class="fas fa-check ms-2"></i></a>
             </div>
           </div>
         </div><!-- end of .container-->

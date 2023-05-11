@@ -8,7 +8,10 @@ import kopo.poly.util.CmmUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -82,6 +85,7 @@ public class UserInfoService implements IUserInfoService {
 
         if (rEntity.isPresent()){
             res = 1;
+
         } else {
             res = 0;
         }
@@ -107,22 +111,97 @@ public class UserInfoService implements IUserInfoService {
     }
 
     @Override
-    public int userCheck(UserInfoDTO pDTO) throws Exception {
+    public UserInfoDTO findUserId(UserInfoDTO pDTO) throws Exception {
         log.info(this.getClass().getName()+" userCheck for userEmail and UserName Service Start!");
         int res = 0;
         String userEmail = pDTO.getUserEmail();
         String userName = pDTO.getUserName();
+        log.info("#### userEmail : "+ userEmail);
+        log.info("#### userName : "+ userName);
+
+        UserInfoDTO rDTO = null;
 
         Optional<UserInfoEntity> rEntity = userInfoRepository.findByUserEmailAndUserName(userEmail, userName);
+        //String userId = CmmUtil.nvl(rEntity.get().getUserId());
 
+
+        String userId = CmmUtil.nvl(rEntity.get().getUserId());
+        log.info("userId :" +userId);
         //String userId = userInfoRepository.findByUserId();
         if (rEntity.isPresent()){
             res = 1;
+
+            log.info("userId : "  + userId);
+
+            rDTO = new UserInfoDTO();
+            rDTO.setUserId(userId);
+            rDTO.setRes(res);
 
             //return userInfoRepository.findUserIdByUserEmailAndUserName();
         }
 
         log.info(this.getClass().getName()+" userCheck for userEmail and UserName Service End!");
+        return rDTO;
+    }
+
+    @Override
+    public int userCheck(UserInfoDTO pDTO) throws Exception {
+        log.info(this.getClass().getName()+" userCheck Service Start!!");
+
+        String userEmail = CmmUtil.nvl(pDTO.getUserEmail());
+        String userName = CmmUtil.nvl(pDTO.getUserName());
+        String userId = CmmUtil.nvl(pDTO.getUserId());
+
+        int res = 0;
+
+
+        Optional<UserInfoEntity> rEntity = userInfoRepository.findByUserEmailAndUserNameAndUserId(userEmail, userName, userId);
+        if (rEntity.isPresent()){
+            res = 1;
+
+        }
+
+        log.info(this.getClass().getName()+" userCheck Service End!!!");
         return res;
+    }
+
+    /** 유저 비밀번호 변경*/
+    @Transactional
+    @Override
+    public void updateUserPwd(UserInfoDTO pDTO) throws Exception {
+        log.info(this.getClass().getName() + " updateUserPwd Service Starat!!");
+
+        String userEmail = CmmUtil.nvl(pDTO.getUserEmail());
+        String newPwd = CmmUtil.nvl(pDTO.getUserPwd());
+
+        log.info("userEmail : " + userEmail);
+        log.info("newPwd : " + newPwd);
+
+        UserInfoEntity rEntity = userInfoRepository.findByUserEmail(pDTO.getUserEmail()).get();
+
+        UserInfoEntity pEntity = UserInfoEntity.builder()
+                .userEmail(userEmail)
+                .userName(rEntity.getUserName())
+                .userId(rEntity.getUserId())
+                .userPwd(newPwd).build();
+
+        userInfoRepository.save(pEntity);
+
+        log.info(this.getClass().getName() + " updateUserPwd Service End!!");
+
+    }
+
+    @Override
+    public void deleteUserInfo(UserInfoDTO pDTO) throws Exception {
+        log.info(this.getClass().getName()+" deleteUserInfo Service Start!!");
+/*
+
+        String userEmail = CmmUtil.nvl(pDTO.getUserEmail());
+        log.info("userEmail : " + userEmail);
+
+        userInfoRepository.deleteById(userEmail);
+
+*/
+        log.info(this.getClass().getName()+" deleteUserInfo Service End!!");
     }
 }

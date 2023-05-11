@@ -3,6 +3,7 @@ package kopo.poly.service.impl;
 
 import kopo.poly.dto.MailCodeDTO;
 
+import kopo.poly.dto.UserInfoDTO;
 import kopo.poly.repository.UserInfoRepository;
 import kopo.poly.repository.impl.UserInfoEntity;
 import kopo.poly.service.IMailService;
@@ -55,39 +56,7 @@ public class MailService implements IMailService {
         } else {
             res = 2; //사용가능 이메일
 
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper messageHelper = new MimeMessageHelper(message, "UTF-8");
-
-            try {
-                message.setSubject("**** 로부터 이메일 인증번호가 도착했습니다. "); // 제목
-                String msgg = "";
-                msgg += "<div style = 'margin:auto; width:600px; border:1px solid black; padding:10px; text-align:center; background-color:#CEF6F5'>";
-                msgg += "<h1 style='color:#0101DF; font-family: Helvetica, Sans-Serif;'> hhhh 안녕하세요 ******* 입니다 ! </h1> ";
-                msgg += "<br>";
-                msgg += "<p style='color: black;'> 회원가입 창으로 돌아가 아래 코드를 입력해주세요 </p>";
-                msgg += "<br>";
-                msgg += "<p style='color: black;> 감사합니다 </p>";
-                msgg += "<br>";
-                // msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
-                msgg += "<div style='border:1px solid #CEF6F5; padding:10px; background-color:#CEF6F5'>";
-                msgg += "<h3 style='color:blue; background-color: #ffffff; '> 회원가입 코드입니다. </h3><hr>";
-                msgg += "<div style='font-size:130%; background-color:#ffffff'>";
-                msgg += "CODE : <strong>";
-                msgg += sendCode + "</strong> <br> <div><br> </div>";
-                // msgg+= "</div>";
-
-                message.setText(msgg, "utf-8", "html");
-                message.setFrom(fromMail);
-
-                messageHelper.setTo(toMail);
-                messageHelper.setFrom(fromMail);
-
-                mailSender.send(message);
-
-            } catch (Exception e) {
-                res = 0; // 메일발송이 실패하기 떄문에 0으로 변경
-                log.info("[ERR0R] " + this.getClass().getName() + " doSendMail : " + e);
-            }
+            res = getRes(res, toMail, sendCode);
             log.info(this.getClass().getName() + " do send Mail SErvice ENd 1! ");
 
         }
@@ -95,134 +64,71 @@ public class MailService implements IMailService {
         return res;
     }
 
-    /**
-     * 이메일 체크후 아이디 보내주기
-     */
-    /*@Override
-    public int sendId(UserInfoDTO uDTO) throws Exception {
-        log.info(this.getClass().getName() + " sendId Start! ! ");
+    @Override
+    public int pwdCode(MailCodeDTO mDTO) throws Exception {
+        log.info(this.getClass().getName() + "pwdCOde Service Start!! ");
+
 
         int res = 0;
 
-        Optional<UserInfoEntity> rEntity = userInfoRepository.findByEmail(uDTO.getEmail());
+
+        String toMail = CmmUtil.nvl(mDTO.getToMail()); // 받는사람
+        String sendCode = CmmUtil.nvl(mDTO.getMail_code()); // 전송될 코드
+        log.info("받을 사람 toMail : " + toMail);
+        log.info("보낸 코드 sendCode : " + sendCode);
+        log.info("보낸사람 : " + fromMail);
+
+        Optional<UserInfoEntity> rEntity = userInfoRepository.findByUserEmail(toMail);
         if (rEntity.isPresent()) {
-            res = 1;
-            log.info("servie res 값: " + res);
-            ///Optional<UserInfoEntity> findByUserId(uDTO.getUserId());
-            ///Optional<UserInfoEntity> uEntity = userInfoRepository.findByEmail(uDTO.getEmail());
-            String userEmail = CmmUtil.nvl(uDTO.getEmail());
-            log.info("받을사람 :: " + userEmail);
+            res = 1; //존재하는 이메일임으로 전송가능
 
-            String userId = CmmUtil.nvl(rEntity.get().getUserId());//rEntiy(Optional)에서 get함수를 통해 내용물 Entity를 꺼내고 꺼낸 Entity에서 다시 get함수를 통해 원하는 컬럼값을 꺼냄
-            log.info("userId : " + userId);
+            res = getRes(res, toMail, sendCode);
+            log.info(this.getClass().getName() + " do pwdCode Service ENd 1! ");
 
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper messageHelper = new MimeMessageHelper(message, "UTF-8");
+        } else {
+            res = 2; //불가능
 
-            try {
-                message.setSubject("**** 로부터 이메일 인증번호가 도착했습니다. "); // 제목
-                String msgg = "";
-                msgg += "<div style = 'margin:100px;' >";
-                msgg += "<h1> 안녕하세요 ******* 입니다 ! </h1> ";
-                msgg += "<br>";
-                msgg += "<p> 아래 아이디를 확인하시고 로그인창으로 돌아가세요. </p>";
-                msgg += "<br>";
-                msgg += "<p> 감사합니다 </p>";
-                msgg += "<br>";
-                // msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
-                msgg += "<h3 style='color:blue;'> 회원님의 아이디 입니다. </h3>";
-                msgg += "<div style='font-size:130%'>";
-                msgg += "아이디 : <strong>";
-                msgg += userId + "</strong> <br> <div><br>";
-                // msgg+= "</div>";
-
-                message.setText(msgg, "utf-8", "html");
-                message.setFrom(fromMail);
-
-                messageHelper.setTo(userEmail);
-                messageHelper.setFrom(fromMail);
-
-                mailSender.send(message);
-
-            } catch (Exception e) {
-                res = 0; // 메일발송이 실패하기 떄문에 0으로 변경
-                log.info("[ERR0R] " + this.getClass().getName() + " doSendMail : " + e);
-            }
         }
-        log.info(this.getClass().getName() + " sendId End !! ");
 
         return res;
-    }*/
+    }
 
-    /*@Transactional
-    @Override
-    public int sendPwd(UserInfoDTO uDTO) throws Exception {
-        log.info(this.getClass().getName() + " sendPwd Service Start! ");
-
-        String userId = CmmUtil.nvl(uDTO.getUserId());
-        String userEmail = CmmUtil.nvl(uDTO.getEmail());
-        String newPwd = CmmUtil.nvl(MailCodeUtil.createKey());
-
-        log.info("비밀번호 찾을 회원 : " + userId);
-        log.info("받을 이메일 : " + userEmail);
-        log.info("새로운 비밀번호 : " + newPwd);
-
-        int res = 0;
+    private int getRes(int res, String toMail, String sendCode) {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper messageHelper = new MimeMessageHelper(message, "UTF-8");
 
         try {
-            Optional<UserInfoEntity> rEntitiy = userInfoRepository.findByUserId(userId);
-            if (rEntitiy.isPresent()) {
-                res = 1;
-                UserInfoEntity userInfoEntity = rEntitiy.get();
-                String userId2 = userInfoEntity.getUserId();
-                log.info("userId2 : " + userId2);
-                int updateResult = userInfoRepository.updatePwd(userId2, newPwd);
-//            UserInfoEntity uEntity = UserInfoEntity.builder().userId(userInfoEntity.getUserId()).password(newPwd).build();
-//            userInfoRepository.save(uEntity); //데이터 수정후 메일 전송
+            message.setSubject("**** 로부터 이메일 인증번호가 도착했습니다. "); // 제목
+            String msgg = "";
+            msgg += "<div style = 'margin:auto; width:600px; border:1px solid black; padding:10px; text-align:center; background-color:#CEF6F5'>";
+            msgg += "<h1 style='color:#0101DF; font-family: Helvetica, Sans-Serif;'> hhhh 안녕하세요 ******* 입니다 ! </h1> ";
+            msgg += "<br>";
+            msgg += "<p style='color: black;'> ****페이지로 돌아가 아래 코드를 입력해주세요 </p>";
+            msgg += "<br>";
+            msgg += "<p style='color: black;> 감사합니다 </p>";
+            msgg += "<br>";
+            // msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
+            msgg += "<div style='border:1px solid #CEF6F5; padding:10px; background-color:#CEF6F5'>";
+            msgg += "<h3 style='color:blue; background-color: #ffffff; '> 이메일 인증 코드입니다. </h3><hr>";
+            msgg += "<div style='font-size:130%; background-color:#ffffff'>";
+            msgg += "CODE : <strong>";
+            msgg += sendCode + "</strong> <br> <div><br> </div>";
+            // msgg+= "</div>";
 
-                if (updateResult == 1) {
-                    log.info("임시비밀번호로 업데이트 성공");
-                    MimeMessage message = mailSender.createMimeMessage();
-                    MimeMessageHelper messageHelper = new MimeMessageHelper(message, "UTF-8");
-                    message.setSubject("**** 로부터 임시 비밀번호가 도착했습니다. "); // 제목
-                    String msgg = "";
-                    msgg += "<div style = 'margin:100px;' >";
-                    msgg += "<h1> 안녕하세요 ******* 입니다 ! </h1> ";
-                    msgg += "<br>";
-                    msgg += "<p> 아래 임시비밀번호를 확인하시고 로그인을 시도해주세요. </p>";
-                    msgg += "<br>";
-                    msgg += "<p> 로그인 후 반드시 회원수정을 통해 비밀번호를 변경해주세요! </p>";
-                    msgg += "<p> 감사합니다 </p>";
-                    msgg += "<br>";
-                    // msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
-                    msgg += "<h3 style='color:blue;'> 회원님의 임시비밀번호 입니다. </h3>";
-                    msgg += "<div style='font-size:130%'>";
-                    msgg += "임시비밀번호 : <strong>";
-                    msgg += newPwd + "</strong> <br> <div><br>";
-                    // msgg+= "</div>";
+            message.setText(msgg, "utf-8", "html");
+            message.setFrom(fromMail);
 
-                    message.setText(msgg, "utf-8", "html");
-                    message.setFrom(fromMail);
+            messageHelper.setTo(toMail);
+            messageHelper.setFrom(fromMail);
 
-                    messageHelper.setTo(userEmail);
-                    messageHelper.setFrom(fromMail);
-
-                    mailSender.send(message);
-
-                } else {
-                    log.info("업데이트 실패");
-                }
-            }
+            mailSender.send(message);
 
         } catch (Exception e) {
             res = 0; // 메일발송이 실패하기 떄문에 0으로 변경
             log.info("[ERR0R] " + this.getClass().getName() + " doSendMail : " + e);
         }
-        log.info(this.getClass().getName() + " sendId End !! ");
-
-
         return res;
-    }*/
+    }
 
 
 }
